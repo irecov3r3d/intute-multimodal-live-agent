@@ -1,0 +1,7 @@
+{
+  "name": "Remix: Intute",
+  "description": "InTute is your steerable, conversational, visual tutor, who can teach any subject in any language. Just speak and ask for what you want.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

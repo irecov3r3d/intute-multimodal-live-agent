@@ -1,0 +1,40 @@
+{
+  "name": "intute-1.2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "lint": "tsc --noEmit",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/genai": "latest",
+    "@tailwindcss/vite": "^4.1.18",
+    "classnames": "^2.5.1",
+    "diff": "^5.2.0",
+    "eventemitter3": "^5.0.1",
+    "function-plot": "1.22.8",
+    "html-to-image": "^1.11.13",
+    "html2pdf.js": "0.10.1",
+    "jspdf": "^3.0.4",
+    "lodash": "^4.17.21",
+    "marked": "^12.0.1",
+    "path": "^0.12.7",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^3.5.1",
+    "tailwindcss": "^4.1.18",
+    "vite": "^6.3.5",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
