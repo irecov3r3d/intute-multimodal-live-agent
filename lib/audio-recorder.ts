@@ -80,7 +80,10 @@ export class AudioRecorder {
     // Use a promise to handle the asynchronous setup process.
     this.starting = new Promise(async (resolve, reject) => {
       this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.audioContext = await audioContext({ sampleRate: this.sampleRate });
+      this.audioContext = await audioContext({ id: 'audio-in', sampleRate: this.sampleRate });
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
       this.source = this.audioContext.createMediaStreamSource(this.stream);
 
       // Set up the main audio recording worklet.

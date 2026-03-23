@@ -248,10 +248,12 @@ export class AudioStreamer {
     // Fade out the volume smoothly before disconnecting nodes to avoid clicks.
     this.gainNode.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.1);
 
+    const oldGainNode = this.gainNode;
+    this.gainNode = this.context.createGain(); // Recreate the gain node immediately for the next playback session.
+    this.gainNode.connect(this.context.destination);
+
     setTimeout(() => {
-      this.gainNode.disconnect();
-      this.gainNode = this.context.createGain(); // Recreate the gain node for the next playback session.
-      this.gainNode.connect(this.context.destination);
+      oldGainNode.disconnect();
     }, 200);
   }
 

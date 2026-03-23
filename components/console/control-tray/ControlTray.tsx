@@ -43,7 +43,7 @@ const USER_TALKING_STATE_COOLDOWN_MS = 1500;
  */
 function ControlTray({ children }: ControlTrayProps) {
   // A single instance of AudioRecorder is created and managed for the component's lifecycle.
-  const [audioRecorder] = useState(() => new AudioRecorder());
+  const [audioRecorder] = useState(() => new AudioRecorder(16000));
   const [muted, setMuted] = useState(false);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);

@@ -243,12 +243,14 @@ export class GenAILiveClient {
         // Separate audio parts from other content types.
         const audioParts = parts.filter(p => p.inlineData?.mimeType?.startsWith('audio/pcm'));
         if (audioParts.length > 0) {
-          const b64 = audioParts[0].inlineData?.data;
-          if (b64) {
-            const data = base64ToArrayBuffer(b64);
-            this.emitter.emit('audio', data);
-            this.log('server.audio', `buffer (${data.byteLength})`);
-          }
+          audioParts.forEach(part => {
+            const b64 = part.inlineData?.data;
+            if (b64) {
+              const data = base64ToArrayBuffer(b64);
+              this.emitter.emit('audio', data);
+              this.log('server.audio', `buffer (${data.byteLength})`);
+            }
+          });
         }
         
         // Handle any non-audio parts.
