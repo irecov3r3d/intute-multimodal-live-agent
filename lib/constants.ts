@@ -19,6 +19,14 @@
  */
 
 /**
+ * GEMINI_API_KEY extracted from environment variables.
+ */
+export const GEMINI_API_KEY =
+  (typeof process !== 'undefined' && process.env
+    ? (process.env.GEMINI_API_KEY || process.env.API_KEY)
+    : undefined) as string | undefined;
+
+/**
  * Default Live API model to use
  */
 export const DEFAULT_LIVE_API_MODEL = 'gemini-2.5-flash-native-audio-preview-09-2025';

@@ -27,6 +27,7 @@ import { marked } from 'marked';
 import { jsPDF } from 'jspdf';
 import * as htmlToImage from 'html-to-image';
 import { themes } from '../../../lib/themes';
+import { GEMINI_API_KEY } from '../../../lib/constants';
 
 import { useLiveAPIContext } from '../../../contexts/LiveAPIContext';
 import { createSystemInstructions } from '../../../lib/prompts';
@@ -45,10 +46,6 @@ import {
 import Modal from '../../Modal';
 import FunctionPlotter from './FunctionPlotter';
 
-const API_KEY =
-  typeof process !== 'undefined' && process.env
-    ? (process.env.API_KEY as string)
-    : undefined;
 
 const PLACEHOLDER_DOC =
   'As you talk, your teacher will update the lesson notes here...';
@@ -678,7 +675,7 @@ export default function KeynoteCompanion() {
   userRef.current = user;
   const agentRef = useRef(current);
   agentRef.current = current;
-  const ai = useRef(API_KEY ? new GoogleGenAI({ apiKey: API_KEY }) : null);
+  const ai = useRef(GEMINI_API_KEY ? new GoogleGenAI({ apiKey: GEMINI_API_KEY }) : null);
 
   // This effect ensures all map containers have a unique ID, which is
   // necessary for tracking and persisting their resized dimensions.
@@ -1422,7 +1419,7 @@ export default function KeynoteCompanion() {
 
     const handleTurnComplete = () => {
       const now = Date.now();
-      if (now - lastTurnCompleteTimestampRef.current < 500) {
+      if (now - lastTurnCompleteTimestampRef.current < 100) {
         return;
       }
       lastTurnCompleteTimestampRef.current = now;
@@ -1432,7 +1429,7 @@ export default function KeynoteCompanion() {
       // Sync transcript with global store
       if (userFinal) {
         addTranscriptEntry({
-            speaker: userRef.current.name,
+            speaker: userRef.current.name || 'User',
             text: userFinal,
         });
       }
