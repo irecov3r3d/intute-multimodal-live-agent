@@ -27,6 +27,7 @@ import { marked } from 'marked';
 import { jsPDF } from 'jspdf';
 import * as htmlToImage from 'html-to-image';
 import { themes } from '../../../lib/themes';
+import { useShallow } from 'zustand/react/shallow';
 import { GEMINI_API_KEY } from '../../../lib/constants';
 
 import { useLiveAPIContext } from '../../../contexts/LiveAPIContext';
@@ -617,15 +618,26 @@ const DocumentRenderer = memo(
 export default function KeynoteCompanion() {
   const { client, setConfig, stopAudio, connected, isConnecting } = useLiveAPIContext();
   const user = useUser();
-  const { current } = useAgent();
+  const current = useAgent(state => state.current);
   const {
     incrementChangeCount,
     setAgentState,
     suppressStaleAgentResponses,
     documentMode,
     imageTimeoutSeconds,
-  } = useUI();
-  const { inserts, addInsert, updateInsert, removeInsert } = useInsertStore();
+  } = useUI(useShallow(state => ({
+    incrementChangeCount: state.incrementChangeCount,
+    setAgentState: state.setAgentState,
+    suppressStaleAgentResponses: state.suppressStaleAgentResponses,
+    documentMode: state.documentMode,
+    imageTimeoutSeconds: state.imageTimeoutSeconds,
+  })));
+  const { inserts, addInsert, updateInsert, removeInsert } = useInsertStore(useShallow(state => ({
+    inserts: state.inserts,
+    addInsert: state.addInsert,
+    updateInsert: state.updateInsert,
+    removeInsert: state.removeInsert,
+  })));
   const {
     addTranscriptEntry,
     addAudioLogEntry,
@@ -633,8 +645,15 @@ export default function KeynoteCompanion() {
     clearSession,
     documentContent,
     setDocumentContent,
-  } = useSessionStore();
-  const { addLog: addPerfLog } = usePerfLogStore();
+  } = useSessionStore(useShallow(state => ({
+    addTranscriptEntry: state.addTranscriptEntry,
+    addAudioLogEntry: state.addAudioLogEntry,
+    transcript: state.transcript,
+    clearSession: state.clearSession,
+    documentContent: state.documentContent,
+    setDocumentContent: state.setDocumentContent,
+  })));
+  const addPerfLog = usePerfLogStore(state => state.addLog);
   const [documentHistory, setDocumentHistory] = useState<string[]>([]);
   const [redoHistory, setRedoHistory] = useState<string[]>([]);
   const [copyButtonText, setCopyButtonText] = useState('Copy');

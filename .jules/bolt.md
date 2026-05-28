@@ -1,0 +1,3 @@
+## 2024-05-28 - Zustand useShallow Optimization in KeynoteCompanion
+**Learning:** Destructuring variables from Zustand stores (e.g., `useUI`) causes a re-render anytime *any* variable in the store changes, resulting in major performance bottlenecks in heavy components like `KeynoteCompanion.tsx`. Also, when extracting a single primitive, using an object literal with `useShallow` is unnecessary; instead, we can directly extract it (e.g., `const current = useAgent(state => state.current)`).
+**Action:** Always wrap destructured multi-property state selectors in `useShallow` from `zustand/react/shallow`. Remove unused properties from the destructured selector, and select primitive properties directly for cleaner and more performant code.
